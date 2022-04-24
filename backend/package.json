@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node server.js",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -44,5 +44,8 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.3.0",
     "prettier": "^2.6.2"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
