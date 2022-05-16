@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +37,6 @@ const SignupScreen = () => {
 
   const userRegister = useSelector((state) => state.userRegister);
   const { loading, error, userInfo } = userRegister;
-  console.log(error);
 
   const [snackBools, setSnackBools] = useState({
     successOpen: false,
@@ -48,8 +54,6 @@ const SignupScreen = () => {
     }
     setSnackBools({ ...snackBools, errorOpen: false });
   };
-  console.log(errors);
-  console.log(`touchedFields: ${touchedFields.username}`);
 
   const onSubmit = (data) =>
     dispatch(
@@ -69,10 +73,13 @@ const SignupScreen = () => {
     }
   }, [error, userInfo]);
 
-  const matchesM = useMediaQuery((theme) => theme.breakpoints.up('md'));
-  const matchesS = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+  const matchesM = useMediaQuery((theme) =>
+    theme.breakpoints.up('md'),
+  );
+  const matchesS = useMediaQuery((theme) =>
+    theme.breakpoints.up('sm'),
+  );
 
-  console.log(matchesM, matchesS);
   return (
     <Box
       sx={{
@@ -87,7 +94,8 @@ const SignupScreen = () => {
         position: 'relative',
         justifyContent: 'center',
         alignItems: 'center',
-      }}>
+      }}
+    >
       <Box
         sx={{
           backgroundColor: 'rgb(255, 255, 255, 0.1)',
@@ -98,7 +106,8 @@ const SignupScreen = () => {
           backdropFilter: 'blur(57.4px)',
           paddingBottom: matchesM ? '' : '0.7rem',
           margin: matchesM ? '' : '2rem 0',
-        }}>
+        }}
+      >
         <Typography
           variant="h1"
           sx={{
@@ -106,7 +115,8 @@ const SignupScreen = () => {
             color: '#8985F2',
             fontWeight: '700',
             margin: '2rem 0',
-          }}>
+          }}
+        >
           SIGNUP
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -116,7 +126,8 @@ const SignupScreen = () => {
             direction="row"
             justifyContent="space-around"
             alignItems="center"
-            spacing={matchesM ? 4 : 2}>
+            spacing={matchesM ? 4 : 2}
+          >
             <Grid item md={6} sm={12}>
               <Controller
                 name="username"
@@ -131,7 +142,9 @@ const SignupScreen = () => {
                     id="username"
                     autoFocus="true"
                     error={errors.username}
-                    helperText={errors.username ? 'Username is required' : ' '}
+                    helperText={
+                      errors.username ? 'Username is required' : ' '
+                    }
                     {...field}
                   />
                 )}
@@ -153,7 +166,9 @@ const SignupScreen = () => {
                     label="Email"
                     id="email"
                     error={errors.email}
-                    helperText={errors.email ? 'Enter a valid email' : ' '}
+                    helperText={
+                      errors.email ? 'Enter a valid email' : ' '
+                    }
                     {...field}
                   />
                 )}
@@ -174,7 +189,9 @@ const SignupScreen = () => {
                     type="password"
                     error={errors.password}
                     helperText={
-                      errors.password ? 'Enter a valid 6 digit password' : ' '
+                      errors.password
+                        ? 'Enter a valid 6 digit password'
+                        : ' '
                     }
                     {...field}
                   />
@@ -195,10 +212,12 @@ const SignupScreen = () => {
                     id="confirmPassword"
                     type="password"
                     error={
-                      getValues('password') !== getValues('confirmPassword')
+                      getValues('password') !==
+                      getValues('confirmPassword')
                     }
                     helperText={
-                      getValues('password') !== getValues('confirmPassword')
+                      getValues('password') !==
+                      getValues('confirmPassword')
                         ? 'Both passwords do not match!'
                         : ' '
                     }
@@ -225,7 +244,8 @@ const SignupScreen = () => {
                 fontWeight: '600',
                 margin: '1rem 0',
                 fontSize: '1.2rem',
-              }}>
+              }}
+            >
               OR
             </Typography>
             <Box
@@ -247,14 +267,16 @@ const SignupScreen = () => {
               position: 'relative',
               justifyContent: 'center',
               alignItems: 'center',
-            }}>
+            }}
+          >
             <Typography
               variant="p"
               sx={{
                 margin: '1rem 0',
                 marginRight: matchesS ? '0.5rem' : '0',
                 fontSize: '1rem',
-              }}>
+              }}
+            >
               Sign Up With
             </Typography>
             <a>
@@ -283,23 +305,34 @@ const SignupScreen = () => {
               />
             </a>
           </Box>
-          <Box sx={{ width: matchesS ? '30rem' : '10rem', margin: '0 auto' }}>
-            <Button
-              variant="contained"
-              size="large"
-              color="primary"
-              fullWidth
-              type="submit"
-              style={{ fontSize: '1.3rem', fontWeigth: '600' }}>
-              Sign Up
-            </Button>
+          <Box
+            sx={{
+              width: matchesS ? '30rem' : '10rem',
+              margin: '0 auto',
+            }}
+          >
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                variant="contained"
+                size="large"
+                color="primary"
+                fullWidth
+                type="submit"
+                style={{ fontSize: '1.3rem', fontWeigth: '600' }}
+              >
+                Sign Up
+              </Button>
+            )}
           </Box>
         </form>
         <Typography
           sx={{
             margin: '1rem 0',
             fontWeight: '300',
-          }}>
+          }}
+        >
           Already have an account?{' '}
           <a>
             <Typography
@@ -307,7 +340,8 @@ const SignupScreen = () => {
               style={{
                 fontWeight: '700',
                 display: 'inline-block',
-              }}>
+              }}
+            >
               Login
             </Typography>
           </a>
@@ -316,23 +350,28 @@ const SignupScreen = () => {
       <Snackbar
         open={snackBools.successOpen}
         autoHideDuration={3000}
-        onClose={handleSuccessClose}>
+        onClose={handleSuccessClose}
+      >
         <MuiAlert
           severity="success"
           sx={{ width: '100%' }}
-          onClose={handleSuccessClose}>
+          onClose={handleSuccessClose}
+        >
           User successfully registered!
         </MuiAlert>
       </Snackbar>
       <Snackbar
         open={snackBools.errorOpen}
         autoHideDuration={3000}
-        onClose={handleErorrClose}>
+        onClose={handleErorrClose}
+      >
         <MuiAlert
           severity="error"
           sx={{ width: '100%' }}
-          onClose={handleErorrClose}>
-          {error}
+          onClose={handleErorrClose}
+        >
+          {error && 'message' in error && error.message}
+          {error && 'messsage' in error && error.messsage}
         </MuiAlert>
       </Snackbar>
     </Box>
